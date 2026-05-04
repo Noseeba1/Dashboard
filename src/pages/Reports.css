@@ -1,0 +1,204 @@
+/* Reports.css - أنماط مخصصة لصفحة التقارير */
+
+.reports-panel {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #F8FAFC;
+  display: flex;
+  direction: rtl;
+  font-size: 12px;}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 16rem;
+  background-color: #2F5D7C;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+/* ===== Logo ===== */
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== User ===== */
+.user-profile {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Navigation ===== */
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Header ===== */
+.header-small {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.header-with-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* ===== Title ===== */
+.main-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #1F2937;
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+/* =========================
+   STATS GRID (FIXED)
+   ========================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Responsive fix */
+@media (max-width: 1400px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   CONTENT GRID (FIXED)
+   ========================= */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+  align-items: start;
+}
+
+/* Responsive fix */
+@media (max-width: 1200px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Cards ===== */
+.chart-box,
+.table-box,
+.stat-card {
+  background-color: white;
+  border-radius: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #F9FAFB;
+}
+
+/* ===== Table ===== */
+.table-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+/* ===== Reviews ===== */
+.review-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* ===== Buttons ===== */
+.export-button {
+  background-color: white;
+  border: 1px solid #D1D5DB;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: flex;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.print-button {
+  background-color: #4A7FA7;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: flex;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* عند الطباعة */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #report-section, #report-section * {
+    visibility: visible;
+  }
+
+  #report-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}

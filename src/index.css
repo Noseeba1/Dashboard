@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+}
+/* إخفاء شريط التمرير (Scrollbar) لجعل التصميم نظيف تماماً */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* لمتصفح إيدج القديم */
+  scrollbar-width: none;  /* لمتصفح فايرفوكس */
+}
+
+/* تنعيم حواف الكروت والظلال */
+.shadow-soft {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 4px 10px -7px rgba(0, 0, 0, 0.02);
+}
+
+/* تحسين استجابة العناصر عند التمرير */
+* {
+  transition: background-color 0.2s ease-in-out;
+}

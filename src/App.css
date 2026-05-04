@@ -1,0 +1,155 @@
+/* الخط */
+/* في ملف App.css */
+
+/* 1. تطبيق الخط على كل شيء */
+* {
+  font-family: 'Cairo', sans-serif !important;
+}
+
+/* 2. تحسين مظهر النصوص للحصول على فخامة التصميم */
+body {
+  background-color: #F8FAFC;
+  -webkit-font-smoothing: antialiased; /* لجعل الخط ناعماً جداً */
+}
+
+/* 3. جعل العناوين تبدو احترافية */
+h1, h2, h3 {
+  font-weight: 800; /* خط عريض للعناوين */
+  letter-spacing: -0.02em; /* تقريب الحروف قليلاً مثل التصاميم العالمية */
+}
+
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background-color: #F8FAFC;
+  direction: rtl;
+}
+
+/* Scroll خفيف */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* العناوين */
+h1, h2, h3, h4 {
+  color: #1F2937;
+}
+
+/* كروت الإحصائيات */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* الأزرار */
+.btn-primary {
+  background-color: #4A7FA7;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #2F5D7C;
+}
+
+/* حالات الطلب */
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* ألوان الحالات */
+.status-blue {
+  background: #DBEAFE;
+  color: #2563EB;
+}
+
+.status-green {
+  background: #DCFCE7;
+  color: #16A34A;
+}
+
+.status-yellow {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.status-purple {
+  background: #E9D5FF;
+  color: #7C3AED;
+}
+
+/* الجدول */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: right;
+  font-weight: 500;
+  padding: 10px;
+  color: #6B7280;
+}
+
+td {
+  padding: 10px;
+}
+
+/* الصفوف */
+tr {
+  border-top: 1px solid #eee;
+}
+
+/* السايدبار */
+.sidebar {
+  background: #2F5D7C;
+  color: white;
+}
+
+.sidebar-item {
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.sidebar-item:hover {
+  background: #4A7FA7;
+}
+
+.sidebar-active {
+  background: #4A7FA7;
+}
+
+/* الفلاتر */
+.filter-btn {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: #f1f5f9;
+  cursor: pointer;
+  border: none;
+}
+
+.filter-active {
+  background: #4A7FA7;
+  color: white;
+}
