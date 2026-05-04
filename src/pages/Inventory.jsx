@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Dashboard.css";
-import "./Inventory.css";
 import "../App.css";
 
 import {

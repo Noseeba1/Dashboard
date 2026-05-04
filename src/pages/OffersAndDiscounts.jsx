@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Dashboard.css";
-import "./OffersAndDiscounts.css";
+
 import {
   Bell, LogOut, Search, AlertTriangle, MessageCircle, ClipboardList,
   Loader2, PackageCheck, CheckCircle2, Calendar, LayoutDashboard,
