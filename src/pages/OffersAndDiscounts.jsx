@@ -7,7 +7,7 @@ import {
   Loader2, PackageCheck, CheckCircle2, Calendar, LayoutDashboard,
   ShoppingBag, PlayCircle, FileText, Truck, AlertCircle, BarChart3,
   Settings, ChevronDown, RefreshCw, Box, ChevronRight, Wallet, UserCheck, ChevronLeft,
-  X,Star,UserCircle ,Plus,Archive, Briefcase, Gift, Edit, Trash2, StopCircle
+  X,Star,UserCircle ,Plus,Archive, Briefcase, Gift, Edit, Trash2, StopCircle,User2
 } from "lucide-react";
 
 const offersData = [
@@ -74,9 +74,11 @@ export default function OffersAndDiscounts() {
           </div>
 
           <nav className="navigation">
-          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/" />
-          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" />
+          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/control" />
+          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" to="/orders"/>
           <MenuItem icon={<UserCircle size={18} />} text="الموظفين" to="/employees" />
+          <MenuItem icon={<User2 size={18} />} text="العملاء" to="/customers" />
+          <MenuItem icon={<FileText size={18} />} text="الفواتير" to="/invoices" />
           <MenuItem icon={<PlayCircle size={18} />} text="تشغيل الطلبات" to="/dashboard" />
           <MenuItem icon={<Archive size={18} />} text="المخزون" to="/inventory" />
           <MenuItem icon={<Briefcase size={18} />} text="الخدمات والأسعار" to="/services" />

@@ -33,12 +33,12 @@ import {
   User2
 } from "lucide-react";
 
-const employeesData = [
-  { id: "E001", name: "أحمد محمد", job: "مدير", phone: "0555123456", status: "نشط" },
-  { id: "E002", name: "فاطمة خالد", job: "استقبال", phone: "0555466789", status: "نشط" },
-  { id: "E003", name: "عبد الله ياسر", job: "سائق", phone: "0555987654", status: "نشط" },
-  { id: "E004", name: "خالد سعيد", job: "كاشير", phone: "0555123400", status: "نشط" },
-  { id: "E005", name: "نورة خالد", job: "تنظيف", phone: "0555667788", status: "نشط" },
+const CustomerData = [
+  { id: "E001", name: "أحمد محمد", address: "جدة", phone: "0555123456", password: "123456", Date: "2023-01-01", status: "نشط" },
+  { id: "E002", name: "فاطمة خالد", address: "الدمام", phone: "0555466789", password: "123456", Date: "2023-01-02", status: "نشط" },
+  { id: "E003", name: "عبد الله ياسر", address: "الرياض", phone: "0555987654", password: "123456", Date: "2023-01-03", status: "نشط" },
+  { id: "E004", name: "خالد سعيد", address: "جدة", phone: "0555123400", password: "123456", Date: "2023-01-04", status: "غير نشط " },
+  { id: "E005", name: "نورة خالد", address: "الطائف", phone: "0555667788", password: "123456", Date: "2023-01-05", status: "نشط" },
 ];
 
 function MenuItem({ icon, text, active, to }) {
@@ -57,22 +57,22 @@ function MenuItem({ icon, text, active, to }) {
 export default function Dashboard() {
   const [filter, setFilter] = useState("الكل");
   const [search, setSearch] = useState("");
-  const statuses = ["الكل", "نشط", "غير نشط", "إجازة"];
+  const statuses = ["الكل", "نشط", "غير نشط"];
 
-  const [showEmployeeModal, setShowEmployeeModal] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState(null); 
+  const [showCustomerModal, setShowCustomerModal] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null); 
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const filteredEmployees = employeesData.filter((employee) => {
-    const matchesFilter = filter === "الكل" || employee.status === filter;
+  const filteredCustomers = CustomerData.filter((customer) => {
+    const matchesFilter = filter === "الكل" || customer.status === filter;
     const query = search.trim().toLowerCase();
     const matchesSearch =
-      employee.id.toLowerCase().includes(query) ||
-      employee.name.toLowerCase().includes(query) ||
-      employee.job.toLowerCase().includes(query) ||
-      employee.phone.toLowerCase().includes(query);
+      customer.id.toLowerCase().includes(query) ||
+      customer.name.toLowerCase().includes(query) ||
+      customer.address.toLowerCase().includes(query) ||
+      customer.phone.toLowerCase().includes(query);
 
     return matchesFilter && (query === "" || matchesSearch);
   });
@@ -96,9 +96,9 @@ export default function Dashboard() {
 
           <nav className="flex flex-col gap-1 flex-1">
           <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/control" />
-          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" to="/orders"/>
-          <MenuItem icon={<UserCircle size={18} />} text="الموظفين" to="/employees" active/>
-          <MenuItem icon={<User2 size={18} />} text="العملاء" to="/customers" />
+          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" to="/orders" />
+          <MenuItem icon={<UserCircle size={18} />} text="الموظفين" to="/employees" />
+          <MenuItem icon={<User2 size={18} />} text="العملاء" to="/customers" active/>
           <MenuItem icon={<FileText size={18} />} text="الفواتير" to="/invoices" />
           <MenuItem icon={<PlayCircle size={18} />} text="تشغيل الطلبات" to="/dashboard"  />
           <MenuItem icon={<Archive size={18} />} text="المخزون" to="/inventory" />
@@ -132,18 +132,18 @@ export default function Dashboard() {
 
           <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2 tracking-tighter text-right">الموظفون</h1>
+              <h1 className="text-3xl font-bold text-gray-800 mb-2 tracking-tighter text-right">العملاء</h1>
 
             </div>
                     <button
                       onClick={() => {
-                        setSelectedEmployee(null); // إضافة
-                        setShowEmployeeModal(true);
+                        setSelectedCustomer(null); // إضافة
+                        setShowCustomerModal(true);
                       }}
                       className="bg-[#4A7FA7] text-white px-5 py-3.5 rounded-xl text-[12px] font-bold shadow-md hover:bg-[#3f8cae] transition-all flex items-center gap-2 w-fit"
                     >
                       <Plus size={16} strokeWidth={3} /> 
-                      <span>إضافة موظف جديد</span>
+                      <span>إضافة عميل جديد</span>
                     </button>
           </div>
 
@@ -166,7 +166,7 @@ export default function Dashboard() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   type="text"
-                  placeholder="بحث عن اسم أو هاتف أو رقم الموظف..."
+                  placeholder="بحث عن اسم أو هاتف أو رقم العميل..."
                   className="w-full bg-gray-50 border border-gray-100 pr-11 pl-4 py-3 rounded-3xl text-sm outline-none focus:border-[#4A7FA7]/30 transition-all"
                 />
               </div>
@@ -177,35 +177,43 @@ export default function Dashboard() {
             <table className="w-full min-w-[900px] text-right border-separate border-spacing-y-4">
               <thead>
                 <tr className="text-gray-400 text-[11px] font-bold uppercase tracking-[0.2em]">
-                  <th className="pr-6 pb-4">رقم الموظف</th>
+                  <th className="pr-6 pb-4">رقم العميل</th>
                   <th className="pb-4">الاسم</th>
-                  <th className="pb-4">الوظيفة</th>
+                  <th className="pb-4">العنوان</th>
                   <th className="pb-4">الهاتف</th>
+                  <th className="pb-4">كلمة المرور</th>
+                  <th className="pb-4">تاريخ الإنشاء</th>
                   <th className="pb-4">الحالة</th>
                   <th className="text-center pb-4">الإجراءات</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredEmployees.map((employee) => (
-                  <tr key={employee.id} className="bg-white hover:bg-gray-50 transition-all rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.04)] border border-gray-100">
+                {filteredCustomers.map((customer) => (
+                  <tr key={customer.id} className="bg-white hover:bg-gray-50 transition-all rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.04)] border border-gray-100">
                     <td className="p-5 pr-6 rounded-r-3xl">
-                      <span className="block font-bold text-gray-700 text-sm">#{employee.id}</span>
-                      <span className="text-[9px] text-gray-300">رقم الموظف</span>
+                      <span className="block font-bold text-gray-700 text-sm">#{customer.id}</span>
+                      <span className="text-[9px] text-gray-300">رقم العميل</span>
                     </td>
-                    <td className="text-sm font-bold text-gray-700">{employee.name}</td>
-                    <td className="text-sm text-gray-600">{employee.job}</td>
-                    <td className="text-sm text-gray-600">{employee.phone}</td>
+                    <td className="text-sm font-bold text-gray-700">{customer.name}</td>
+                    <td className="text-sm text-gray-600">{customer.address}</td>
+                    <td className="text-sm text-gray-600">{customer.phone}</td>
                     <td>
-                      <span className={`inline-flex items-center justify-center px-3 py-1.5 rounded-full text-[10px] font-black ${getStatusClass(employee.status)}`}>
-                        {employee.status}
+                      <span className="text-sm text-gray-600">{customer.password}</span>
+                    </td>
+                    <td>
+                      <span className="text-sm text-gray-600">{customer.Date}</span>
+                    </td>
+                    <td>
+                      <span className={`inline-flex items-center justify-center px-3 py-1.5 rounded-full text-[10px] font-black ${getStatusClass(customer.status)}`}>
+                        {customer.status}
                       </span>
                     </td>
                     <td className="rounded-l-3xl pr-4 py-5">
                       <div className="flex justify-center items-center gap-3">
                                 <button className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
                                     onClick={() => {
-                                        setSelectedEmployee(employee); // تمرير البيانات
-                                        setShowEmployeeModal(true);
+                                        setSelectedCustomer(customer); // تمرير البيانات
+                                        setShowCustomerModal(true);
                                       }}
                                     >      
                               <Edit size={14} /> تعديل
@@ -222,14 +230,14 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-            {showEmployeeModal && (
+            {showCustomerModal && (
               <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] p-4 text-right">
                 
                 <div className="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative">
                   
                   {/* إغلاق */}
                   <button
-                    onClick={() => setShowEmployeeModal(false)}
+                    onClick={() => setShowCustomerModal(false)}
                     className="absolute left-6 top-6 text-gray-400 hover:text-gray-600"
                   >
                     <X size={20} />
@@ -237,36 +245,42 @@ export default function Dashboard() {
 
                   {/* عنوان */}
                   <h3 className="text-xl font-bold text-gray-800 mb-6">
-                    {selectedEmployee ? "تعديل الموظف" : "إضافة موظف جديد"}
+                    {selectedCustomer ? "تعديل العميل" : "إضافة عميل جديد"}
                   </h3>
 
                   {/* الحقول */}
                   <div className="flex flex-col gap-4">
                     <input
                       type="text"
-                      placeholder="اسم الموظف"
-                      defaultValue={selectedEmployee?.name || ""}
+                      placeholder="اسم العميل"
+                      defaultValue={selectedCustomer?.name || ""}
                       className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
                     />
 
                     <input
                       type="text"
-                      placeholder="الوظيفة"
-                      defaultValue={selectedEmployee?.job || ""}
+                      placeholder="العنوان"
+                      defaultValue={selectedCustomer?.address || ""}
                       className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
                     />
 
                     <input
                       type="text"
                       placeholder="رقم الهاتف"
-                      defaultValue={selectedEmployee?.phone || ""}
+                      defaultValue={selectedCustomer?.phone || ""}
+                      className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+                    />
+                    <input
+                      type="text"
+                      placeholder="كلمة المرور"
+                      defaultValue={selectedCustomer?.password || ""}
                       className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
                     />
                   </div>
 
                   {/* زر */}
                   <button className="w-full mt-6 bg-[#4A7FA7] text-white py-3 rounded-2xl font-bold text-sm">
-                    {selectedEmployee ? "حفظ التعديلات" : "إضافة الموظف"}
+                    {selectedCustomer ? "حفظ التعديلات" : "إضافة العميل"}
                   </button>
                 </div>
               </div>
@@ -309,8 +323,6 @@ function getStatusClass(status) {
       return "bg-emerald-50 text-emerald-600";
     case "غير نشط":
       return "bg-red-50 text-red-600";
-    case "إجازة":
-      return "bg-yellow-50 text-yellow-700";
     default:
       return "bg-gray-100 text-gray-600";
   }

@@ -4,7 +4,7 @@ import {
   Bell, LogOut, Search, AlertTriangle, MessageCircle, ClipboardList,
   Loader2, PackageCheck, CheckCircle2, Calendar, LayoutDashboard,
   ShoppingBag, Wallet, UserCheck, PlayCircle, FileText, Truck, AlertCircle, BarChart3,
-  UserCircle ,Archive ,Briefcase, Gift, Star, Settings, ChevronDown, RefreshCw, Box, X, Trash2
+  UserCircle ,Archive ,Briefcase, Gift, Star, Settings, ChevronDown, RefreshCw, Box, X, Trash2,User2 
 } from "lucide-react";
 
 const initialOrders = [
@@ -104,9 +104,11 @@ export default function Dashboard() {
             </div>
           </div>
           <nav className="flex flex-col gap-1 flex-1 text-right">
-          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/" />
-          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" />
+          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/control" />
+          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" to="/orders"/>
           <MenuItem icon={<UserCircle size={18} />} text="الموظفين" to="/employees" />
+          <MenuItem icon={<User2 size={18} />} text="العملاء" to="/customers" />
+          <MenuItem icon={<FileText size={18} />} text="الفواتير" to="/invoices" />
           <MenuItem icon={<PlayCircle size={18} />} text="تشغيل الطلبات" to="/dashboard" active/>
           <MenuItem icon={<Archive size={18} />} text="المخزون" to="/inventory" />
           <MenuItem icon={<Briefcase size={18} />} text="الخدمات والأسعار" to="/services" />

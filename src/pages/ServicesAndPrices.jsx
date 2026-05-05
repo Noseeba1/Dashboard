@@ -9,7 +9,7 @@ import {
   Loader2, PackageCheck, CheckCircle2, Calendar, LayoutDashboard,
   ShoppingBag, PlayCircle, FileText, Truck, AlertCircle, BarChart3,
   Settings, ChevronDown, RefreshCw, Box, ChevronRight, Wallet, UserCheck, ChevronLeft,
-  X,Star,UserCircle ,Plus,Archive, Briefcase, Gift, Edit, Trash2, StopCircle
+  X,Star,UserCircle ,Plus,Archive, Briefcase, Gift, Edit, Trash2, StopCircle,User2 
 } from "lucide-react";
 
 const servicesData = [
@@ -41,11 +41,14 @@ export default function ServicesAndPrices() {
 
     const [showServiceModal, setShowServiceModal] = useState(false);
     const [selectedService, setSelectedService] = useState(null);
+    const [editType, setEditType] = useState("");
 
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
 
-    const categories = ["الكل", "غسيل", "كوي", "تنظيف جاف", "مستعجل"];
+    const tabs = ["الأقسام", "الخدمات", "أنواع الخدمات","أنواع الكوي", "خيارات التنفيذ", "الأسعار"];
+    const [activeTab, setActiveTab] = useState("الأقسام");
+
     const filteredServices = servicesData.filter((item) => {
     const matchesCategory = filter === "الكل" || item.type === filter;
 
@@ -76,9 +79,11 @@ export default function ServicesAndPrices() {
           </div>
 
           <nav className="navigation">
-          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/" />
-          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" />
+          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/control" />
+          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" to="/orders"/>
           <MenuItem icon={<UserCircle size={18} />} text="الموظفين" to="/employees" />
+          <MenuItem icon={<User2 size={18} />} text="العملاء" to="/customers" />
+          <MenuItem icon={<FileText size={18} />} text="الفواتير" to="/invoices" />
           <MenuItem icon={<PlayCircle size={18} />} text="تشغيل الطلبات" to="/dashboard" />
           <MenuItem icon={<Archive size={18} />} text="المخزون" to="/inventory" />
           <MenuItem icon={<Briefcase size={18} />} text="الخدمات والأسعار" to="/services" active/>
@@ -122,14 +127,18 @@ export default function ServicesAndPrices() {
             <div className="orders-section">
               <div className="orders-card">
                 <div className="orders-header">
-                    <div className="filter-tabs">
-                        {categories.map((c, i) => (
-                            <button key={i} onClick={() => setFilter(c)} className={`filter-tab ${filter === c ? 'active' : ''}`}>
-                            {c}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="filters-row">
+                <div className="filter-tabs">
+                  {tabs.map((tab, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveTab(tab)}
+                      className={`filter-tab ${activeTab === tab ? 'active' : ''}`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div> 
+                          <div className="filters-row">
 {/*                         <div className="filter-dropdowns">
                             <FilterDropdown text="الأحدث" />
                             <FilterDropdown text="كل الحالات" />
@@ -145,10 +154,18 @@ export default function ServicesAndPrices() {
 
                     <button
                       onClick={() => {
-                        setSelectedService(null); // إضافة
+                        setSelectedService(null);
+
+                        if (activeTab === "الأقسام") setEditType("category");
+                        else if (activeTab === "الخدمات") setEditType("service");
+                        else if (activeTab === "أنواع الخدمات") setEditType("type");
+                        else if (activeTab === "أنواع الكوي") setEditType("typeOfService");
+                        else if (activeTab === "خيارات التنفيذ") setEditType("option");
+                        else if (activeTab === "الأسعار") setEditType("price");
+
                         setShowServiceModal(true);
-                      }}
-                      className="bg-[#4A7FA7] text-white px-5 py-3.5 rounded-xl text-[12px] font-bold shadow-md hover:bg-[#3f8cae] transition-all flex items-center gap-2 w-fit"
+                      }}  
+                    className="bg-[#4A7FA7] text-white px-5 py-3.5 rounded-xl text-[12px] font-bold shadow-md hover:bg-[#3f8cae] transition-all flex items-center gap-2 w-fit"
                     >
                       <Plus size={16} strokeWidth={3} />
                       <span>إضافة خدمة جديدة</span>
@@ -156,54 +173,299 @@ export default function ServicesAndPrices() {
                     </div>
                 </div>
 
-                <div className="orders-table-container">
+
+              <div className="orders-table-container">
+
+              {/* الأقسام */}
+              {activeTab === "الأقسام" && (
+                <>
                     <div className="grid grid-cols-6 gap-4 px-6 pb-4 text-[11px] font-bold text-[#9CA3AF] uppercase border-b border-[#F9FAFB] mb-4 w-full">
-                        <div className="text-right">كود الخدمة</div>
-                        <div className="text-right">اسم الخدمة</div>
-                        <div className="text-center">السعر العادي</div>
-                        <div className="text-center">السعر المستعجل</div>
-                        <div className="text-center">حالة الخدمة</div>
-                        <div className="text-left">الإجراء</div>
-                    </div>
+                    <div className="text-right">ID</div>
+                    <div className="text-right">اسم القسم</div>
+                    <div className="text-left">الإجراء</div>
+                  </div>
 
                     <div className="flex flex-col gap-3">
-                        {filteredServices.map((o) => (
-                        <div key={o.id} className="grid grid-cols-6 gap-4 items-center p-5 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#F3F4F6] hover:bg-[#F8FAFC] transition-colors w-full">
+                  {[
+                    { id: 1, name: "ملابس" },
+                    { id: 2, name: "أحذية" },
+                    { id: 3, name: "مفروشات" },
+                  ].map((item) => (
+                    <div key={item.id} className="grid grid-cols-6 gap-4 items-center p-5 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#F3F4F6] hover:bg-[#F8FAFC] transition-colors w-full">
+                      
                             <div className="flex flex-col text-right">
-                                <span className="font-bold text-[#374151] text-[13px]">{o.id}</span>
+                                <span className="font-bold text-[#374151] text-[13px]">#{item.id}</span>
                             </div>
                             <div className="flex flex-col text-right">
-                                <span className="font-bold text-[#4B5563] text-[13px]">{o.name}</span>
+                                <span className="font-bold text-[#374151] text-[13px]">#{item.name}</span>
                             </div>
-                            <div className="flex flex-col text-center">
-                                <span className="text-[#6B7280] text-[13px] font-bold">{o.price}</span>
-                            </div>
-                            <div className="flex flex-col text-center">
-                                <span className="text-[#6B7280] text-[13px] font-bold">{o.urgentPrice}</span>
-                            </div>
-                            <div className="flex justify-center">
-                                <div className={`px-4 py-1.5 rounded-xl text-[10px] font-black text-center min-w-[80px] ${
-                                    o.status === "نشطة" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-500"
-                                }`}>
-                                    {o.status}
-                                </div>
-                            </div>
-                            <div className="flex justify-end items-center gap-3">
-                                <button className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
-                                  onClick={() => {
-                                    setSelectedService(o); // تمرير بيانات الصف
-                                    setShowServiceModal(true);
-                                  }} >     
-                            <Edit size={14} /> تعديل
-                                </button>
+
+                      <div className="flex justify-end items-center gap-3">
+                    
+                            <button
+                              className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
+                              onClick={() => {
+                                setSelectedService(item);
+                                setEditType("category"); // أي صف (قسم، خدمة، نوع...)
+                                setShowServiceModal(true);
+                              }}
+                            >
+                              <Edit size={14} /> تعديل
+                            </button>                   
+                    
                               <button className="bg-red-50 text-red-500 px-3 py-2 rounded-xl hover:bg-red-100 transition">
                                 <Trash2 size={16} />
                               </button>        
-                            </div>
                         </div>
-                        ))}
                     </div>
-                </div>
+                  ))}
+                    </div>
+                </>
+              )}
+
+              {/* الخدمات */}
+              {activeTab === "الخدمات" && (
+                <>
+                    <div className="grid grid-cols-6 gap-4 px-6 pb-4 text-[11px] font-bold text-[#9CA3AF] uppercase border-b border-[#F9FAFB] mb-4 w-full">
+                    <div>ID</div>
+                    <div>اسم الخدمة</div>
+                    <div>القسم</div>
+                    <div>الإجراء</div>
+                  </div>
+
+                    <div className="flex flex-col gap-3">
+                  {[
+                    { id: 1, name: "قميص", category: "رجالي " },
+                    { id: 2, name: "بنطلون", category: "نسائي" },
+                    { id: 3, name: "فستان", category: "مفروشات" },
+                  ].map((item) => (
+                    <div key={item.id} className="grid grid-cols-6 gap-4 items-center p-5 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#F3F4F6] hover:bg-[#F8FAFC] transition-colors w-full">
+                            <div className="flex flex-col text-right">
+                                <span className="font-bold text-[#374151] text-[13px]">#{item.id}</span>
+                            </div>
+                            <div className="flex flex-col text-right">
+                                <span className="font-bold text-[#374151] text-[13px]">#{item.name}</span>
+                            </div>
+                            <div className="flex flex-col text-right">
+                                <span className="font-bold text-[#374151] text-[13px]">#{item.category}</span>
+                            </div>
+
+                            <div className="flex justify-end items-center gap-3">
+                    
+                              <button
+                                className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
+                                onClick={() => {
+                                  setSelectedService(item); // أي صف (قسم، خدمة، نوع...)
+                                   setEditType("service");
+                                  setShowServiceModal(true);
+                                }}
+                              >
+                                <Edit size={14} /> تعديل
+                              </button>                      
+                              <button className="bg-red-50 text-red-500 px-3 py-2 rounded-xl hover:bg-red-100 transition">
+                                <Trash2 size={16} />
+                              </button>        
+                    </div>
+                    </div>
+                  ))}
+                  </div>
+                </>
+              )}
+
+              {/* أنواع الخدمات */}
+              {activeTab === "أنواع الخدمات" && (
+                <>
+                  <div className="grid grid-cols-6 gap-4 px-6 pb-4 text-[11px] font-bold text-[#9CA3AF] uppercase border-b border-[#F9FAFB] mb-4 w-full">
+                    <div>ID</div>
+                    <div> نوع الخدمة</div>
+                    <div>الإجراء</div>
+                  </div>
+
+                    <div className="flex flex-col gap-3">
+                  {[
+                    { id: 1, name: "غسيل" },
+                    { id: 2, name: "كوي" },
+                  ].map((item) => (
+                    <div key={item.id} className="grid grid-cols-6 gap-4 items-center p-5 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#F3F4F6] hover:bg-[#F8FAFC] transition-colors w-full">
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.id}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.name}</span>
+                      </div>
+
+                        <div className="flex justify-end items-center gap-3">
+                    
+                            <button
+                              className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
+                              onClick={() => {
+                                setSelectedService(item); // أي صف (قسم، خدمة، نوع...)
+                                setEditType("type");
+                                setShowServiceModal(true);
+                              }}
+                            >
+                              <Edit size={14} /> تعديل
+                            </button>                      
+                              <button className="bg-red-50 text-red-500 px-3 py-2 rounded-xl hover:bg-red-100 transition">
+                                <Trash2 size={16} />
+                              </button>        
+                    
+                    </div>
+                    </div>
+                  ))}
+                  </div>
+
+                </>
+              )}
+
+              {/* أنواع الكوي */}
+              {activeTab === "أنواع الكوي" && (
+                <>
+                  <div className="grid grid-cols-6 gap-4 px-6 pb-4 text-[11px] font-bold text-[#9CA3AF] uppercase border-b border-[#F9FAFB] mb-4 w-full">
+                    <div>ID</div>
+                    <div> نوع الكوي</div>
+                    <div>الإجراء</div>
+                  </div>
+
+                    <div className="flex flex-col gap-3">
+                  {[
+                    { id: 1, name: "كوي بخار" },
+                    { id: 2, name: "كوي عادي" },
+                  ].map((item) => (
+                    <div key={item.id} className="grid grid-cols-6 gap-4 items-center p-5 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#F3F4F6] hover:bg-[#F8FAFC] transition-colors w-full">
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.id}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.name}</span>
+                      </div>
+
+                        <div className="flex justify-end items-center gap-3">
+                    
+                            <button
+                              className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
+                              onClick={() => {
+                                setSelectedService(item); // أي صف (قسم، خدمة، نوع...)
+                                setEditType("typeOfService");
+                                setShowServiceModal(true);
+                              }}
+                            >
+                              <Edit size={14} /> تعديل
+                            </button>                      
+                              <button className="bg-red-50 text-red-500 px-3 py-2 rounded-xl hover:bg-red-100 transition">
+                                <Trash2 size={16} />
+                              </button>        
+                    
+                    </div>
+                    </div>
+                  ))}
+                  </div>
+
+                </>
+              )}
+
+              {/* الخيارات */}
+              {activeTab === "خيارات التنفيذ" && (
+                <>
+                  <div className="grid grid-cols-6 gap-4 px-6 pb-4 text-[11px] font-bold text-[#9CA3AF] uppercase border-b border-[#F9FAFB] mb-4 w-full">
+                    <div>ID</div>
+                    <div>الخيار</div>
+                    <div>الإجراء</div>
+                  </div>
+
+                    <div className="flex flex-col gap-3">
+
+                  {[
+                    { id: 1, name: "عادي" },
+                    { id: 2, name: "مستعجل" },
+                  ].map((item) => (
+                    <div key={item.id} className="grid grid-cols-6 gap-4 items-center p-5 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#F3F4F6] hover:bg-[#F8FAFC] transition-colors w-full">
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.id}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.name}</span>
+                      </div>
+
+                      <div className="flex justify-end items-center gap-3">
+                    <button
+                      className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
+                      onClick={() => {
+                        setSelectedService(item); // أي صف (قسم، خدمة، نوع...)
+                        setEditType("option");
+                        setShowServiceModal(true);
+                      }}
+                    >
+                      <Edit size={14} /> تعديل
+                    </button>                      
+                    <button className="bg-red-50 text-red-500 px-3 py-2 rounded-xl hover:bg-red-100 transition">
+                        <Trash2 size={16} />
+                    </button>        
+                    
+                    </div>
+                    </div>
+                  ))}
+                    </div>
+                </>
+              )}
+
+              {/* الأسعار */}
+              {activeTab === "الأسعار" && (
+                <>
+                  <div className="grid grid-cols-6 gap-4 px-6 pb-4 text-[11px] font-bold text-[#9CA3AF] uppercase border-b border-[#F9FAFB] mb-4 w-full">
+                    <div>ID</div>
+                    <div>الخدمة</div>
+                    <div>نوع الخدمة</div>
+                    <div>الخيار</div>
+                    <div>السعر</div>
+                  </div>
+
+                    <div className="flex flex-col gap-3">
+
+                  {[
+                    { id: 1, service: "قميص", type: "كوي", type_of_service: "كوي بخار",  option: "عادي", price: "1000" },
+                    { id: 2, service: "قميص", type: "غسيل", type_of_service: "___ ", option: "مستعجل", price: "1500" },
+                  ].map((item) => (
+                    <div key={item.id} className="grid grid-cols-6 gap-4 items-center p-5 bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#F3F4F6] hover:bg-[#F8FAFC] transition-colors w-full">
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.id}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.service}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.type}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.option}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="font-bold text-[#374151] text-[13px]">#{item.price}</span>
+                      </div>
+
+                            <div className="flex justify-end items-center gap-3">
+                                <button className="bg-[#4A7FA7] text-white px-5 py-2 rounded-xl text-[10px] font-bold hover:bg-[#3A6F97] transition-colors shadow-sm flex items-center gap-2"
+                                onClick={() => {
+                                  setSelectedService(item); // أي صف (قسم، خدمة، نوع...)
+                                    setEditType("price");
+                                  setShowServiceModal(true);
+                                }}
+                              >
+                                <Edit size={14} /> تعديل
+                              </button>                      
+                              <button className="bg-red-50 text-red-500 px-3 py-2 rounded-xl hover:bg-red-100 transition">
+                                <Trash2 size={16} />
+                              </button>        
+                    </div>
+                    </div>
+                  ))}
+                    </div>
+
+                </>
+
+              )}
+
+              </div>                
               </div>
             </div>
           </div>
@@ -217,7 +479,10 @@ export default function ServicesAndPrices() {
       
       {/* زر الإغلاق */}
       <button
-        onClick={() => setShowServiceModal(false)}
+        onClick={() => { 
+          setShowServiceModal(false);
+          setSelectedService(null);
+          setEditType("");}}
         className="absolute left-6 top-6 text-gray-400 hover:text-gray-600"
       >
         <X size={20} />
@@ -230,27 +495,106 @@ export default function ServicesAndPrices() {
 
       {/* الحقول */}
       <div className="flex flex-col gap-4">
-        <input
-          type="text"
-          placeholder="اسم الخدمة"
-          defaultValue={selectedService?.name || ""}
-          className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
-        />
+  {/* الأقسام */}
+  {editType === "category" && (
+    <>
+      <input
+        type="text"
+        placeholder="اسم القسم"
+        defaultValue={selectedService?.name || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+    </>
+  )}
 
+  {/* الخدمات */}
+  {editType === "service" && (
+    <>
+      <input
+        type="text"
+        placeholder="اسم الخدمة"
+        defaultValue={selectedService?.name || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
         <input
-          type="text"
-          placeholder="السعر"
-          defaultValue={selectedService?.price || ""}
-          className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
-        />
+        type="text"
+        placeholder="اسم القسم"
+        //defaultValue={selectedService?.name || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
 
-        <input
-          type="text"
-          placeholder="السعر المستعجل"
-          defaultValue={selectedService?.urgentPrice || ""}
-          className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
-        />
-      </div>
+    </>
+  )}
+
+  {/* أنواع الخدمات */}
+  {editType === "type" && (
+    <>
+      <input
+        type="text"
+        placeholder="نوع الخدمة"
+        defaultValue={selectedService?.name || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+    </>
+  )}
+
+  {/* أنواع الكوي */}
+  {editType === "typeOfService" && (
+    <>
+      <input
+        type="text"
+        placeholder="نوع الكوي"
+        defaultValue={selectedService?.name || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+    </>
+  )}
+
+
+  {/* خيارات التنفيذ */}
+  {editType === "option" && (
+    <>
+      <input
+        type="text"
+        placeholder="خيار التنفيذ"
+        defaultValue={selectedService?.name || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+    </>
+  )}
+
+  {/* الأسعار */}
+  {editType === "price" && (
+    <>
+      <input
+        type="text"
+        placeholder="الخدمة"
+        defaultValue={selectedService?.service || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+
+      <input
+        type="text"
+        placeholder="نوع الخدمة"
+        defaultValue={selectedService?.type || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+
+      <input
+        type="text"
+        placeholder="الخيار"
+        defaultValue={selectedService?.option || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+
+      <input
+        type="text"
+        placeholder="السعر"
+        defaultValue={selectedService?.price || ""}
+        className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm outline-none"
+      />
+    </>
+  )}      </div>
 
       {/* زر الحفظ */}
       <button

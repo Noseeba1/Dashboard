@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Bell, LogOut, Search, Wallet, FileText, CreditCard, Target, FileSpreadsheet,
   CheckCircle2, CalendarDays, Settings, ChevronDown, LayoutDashboard,
-  UserCircle ,Archive ,Briefcase, Gift, Star, RefreshCw, UserCheck, Box, X, BarChart3,  ShoppingBag ,PlayCircle 
+  UserCircle ,Archive ,Briefcase, Gift, Star, RefreshCw, UserCheck, Box, X, BarChart3,  ShoppingBag ,PlayCircle ,User2 
 } from "lucide-react";
 import {
   Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement,
@@ -88,9 +88,11 @@ export default function AccountantPanel() {
         </div>
 
         <nav className="flex flex-col gap-1 flex-1 text-right">
-          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/" />
-          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" />
+          <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/control" />
+          <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" to="/orders"/>
           <MenuItem icon={<UserCircle size={18} />} text="الموظفين" to="/employees" />
+          <MenuItem icon={<User2 size={18} />} text="العملاء" to="/customers" />
+          <MenuItem icon={<FileText size={18} />} text="الفواتير" to="/invoices" />
           <MenuItem icon={<PlayCircle size={18} />} text="تشغيل الطلبات" to="/dashboard" />
           <MenuItem icon={<Archive size={18} />} text="المخزون" to="/inventory" />
           <MenuItem icon={<Briefcase size={18} />} text="الخدمات والأسعار" to="/services" />

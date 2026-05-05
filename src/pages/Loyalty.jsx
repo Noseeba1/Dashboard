@@ -6,7 +6,7 @@
         Bell, LogOut, Box, LayoutDashboard, ShoppingBag, PlayCircle,
         BarChart3, Settings, Calendar, Star, ArrowUpRight, ArrowDownRight,
         Search, UserCircle, Archive, Briefcase, Gift, UserCheck, Wallet,
-        X,RefreshCw, Plus, Users, ShieldCheck, ArrowRightLeft
+        X,RefreshCw, Plus, Users, ShieldCheck, ArrowRightLeft,User2 ,FileText 
     } from "lucide-react";
 
     // بيانات إحصائية لإدارة الشركة
@@ -91,9 +91,11 @@
                 </div>
             </div>
                     <nav className="flex flex-col gap-1 flex-1">
-            <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/" />
-            <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" />
+            <MenuItem icon={<LayoutDashboard size={18} />} text="لوحة التحكم" to="/control" />
+            <MenuItem icon={<ShoppingBag size={18} />} text="الطلبات" to="/orders"/>
             <MenuItem icon={<UserCircle size={18} />} text="الموظفين" to="/employees" />
+            <MenuItem icon={<User2 size={18} />} text="العملاء" to="/customers" />
+            <MenuItem icon={<FileText size={18} />} text="الفواتير" to="/invoices" />
             <MenuItem icon={<PlayCircle size={18} />} text="تشغيل الطلبات" to="/dashboard"  />
             <MenuItem icon={<Archive size={18} />} text="المخزون" to="/inventory" />
             <MenuItem icon={<Briefcase size={18} />} text="الخدمات والأسعار" to="/services" />

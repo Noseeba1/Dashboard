@@ -202,3 +202,26 @@
     width: 100%;
   }
 }
+
+/* أنميشن دخول ناعم للكروت */
+.chart-animate {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  animation: chartFadeIn 0.8s ease forwards;
+}
+
+/* تأخير بسيط بين العناصر */
+.chart-animate.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.chart-animate.delay-2 {
+  animation-delay: 0.4s;
+}
+
+@keyframes chartFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
